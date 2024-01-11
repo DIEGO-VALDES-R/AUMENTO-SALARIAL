@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aumento Salarial - Policía Nacional</title>
+  <style>
+    body {
+      font-family: 'Century Gothic', sans-serif;
+      background-color: #153;
+      color: #FFF;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+
+    #logo {
+      width: 200px;
+      height: 200px;
+    }
+
+    input,
+    select,
+    button {
+      margin: 10px;
+      padding: 5px;
+      font-size: 16px;
+    }
+
+    button {
+      background-color: #001f3f;
+      color: #fff;
+      font-weight: bold;
+    }
+
+    #resultados {
+      margin-top: 20px;
+    }
+
+    #footer {
+      margin-top: 50px;
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>POLICÍA NACIONAL DE COLOMBIA</h1>
+  <img id="logo" src="https://policia.edu.co/wp-content/uploads/2023/03/EscudoPONAL_tex.png" alt="Escudo Policía Nacional">
+  <label for="grado">Grado:</label>
+  <select id="grado">
+    <option value="PT">PT</option>
+    <option value="SI">SI</option>
+    <option value="IT">IT</option>
+    <option value="IJ">IJ</option>
+    <option value="SC">SC</option>
+    <option value="CM">CM</option>
+  </select>
+  <label for="nombre">Nombres y Apellidos:</label>
+  <input type="text" id="nombre">
+
+  <h2>Consulta su Aumento Salarial</h2>
+  <label for="porcentaje">Porcentaje:</label>
+  <input type="text" id="porcentaje" placeholder="10.88%">
+  <label for="sueldoActual">Sueldo Actual:</label>
+  <input type="text" id="sueldoActual" placeholder="$4.635.528">
+  <label for="descuentosFijos">Descuentos Fijos:</label>
+  <input type="text" id="descuentosFijos" placeholder="$285.929">
+
+  <button onclick="calcularAumento()">Calcular</button>
+  <button onclick="limpiar()">Limpiar</button>
+
+  <div id="resultados">
+    <p id="aumentoParcial"></p>
+    <p id="totalAumentoDescuentos"></p>
+    <p id="aumentoSueldoFinal"></p>
+    <p id="salarioFinal"></p>
+  </div>
+
+  <div id="footer">
+    <p>Aplicación desarrollada por SI. DIEGO FERNANDO VALDES</p>
+    <p>Versión de prueba 1.0 </p>
+  </div>
+
+  <script>
+    function limpiar() {
+      document.getElementById('porcentaje').value = '';
+      document.getElementById('sueldoActual').value = '';
+      document.getElementById('descuentosFijos').value = '';
+      document.getElementById('grado').value = 'PT';
+      document.getElementById('nombre').value = '';
+      document.getElementById('resultados').innerHTML = '';
+    }
+
+    function calcularAumento() {
+      var porcentaje = parseFloat(document.getElementById('porcentaje').value) || 0;
+      var sueldoActual = parseFloat(document.getElementById('sueldoActual').value.replace(/\D/g, '')) || 0;
+      var descuentosFijos = parseFloat(document.getElementById('descuentosFijos').value.replace(/\D/g, '')) || 0;
+      var aumentoParcial = sueldoActual * (porcentaje / 100);
+      var aumentoDescuentosFijos = descuentosFijos * (porcentaje / 100);
+      var totalAumentoDescuentos = descuentosFijos + aumentoDescuentosFijos;
+      var aumentoSueldoFinal = aumentoParcial - aumentoDescuentosFijos;
+      var salarioFinal = sueldoActual + aumentoSueldoFinal;
+      document.getElementById('resultados').innerHTML =
+        `<p>Aumento Parcial Sin Descuento: $${aumentoParcial.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</p>` +
+        `<p>Total Aumento Descuentos Fijos: $${totalAumentoDescuentos.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</p>` +
+        `<p>Aumento Sueldo Final: $${aumentoSueldoFinal.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</p>` +
+        `<p>Salario Final a Devengar: $${salarioFinal.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</p>`;
+    }
+  </script>
+</body>
+
+</html>
